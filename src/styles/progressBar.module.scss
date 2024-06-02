@@ -1,23 +1,26 @@
 .progressBarContainer {
   display: flex;
-  justify-content: space-between;
-  margin-top: 16px;
-}
-
-.progressBarContainer > div {
-  flex: 1;
+  width: 100%;
   height: 10px;
-  margin: 0 2px;
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .completed {
+  flex: 1;
   background-color: black;
+  transition: background-color 0.3s;
 }
 
 .current {
+  flex: 1;
   background-color: red;
+  transition: background-color 0.3s;
 }
 
 .pending {
-  background-color: lightgray;
+  flex: 1;
+  background-color: white;
+  transition: background-color 0.3s;
 }

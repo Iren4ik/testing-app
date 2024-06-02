@@ -10,15 +10,20 @@ interface TestState {
   currentQuestionId: number;
   answers: Answer[];
   timeRemaining: number;
+  allAnswersSubmitted: boolean;
+  isLastQuestion: boolean;
   answerQuestion: (answer: Answer) => void;
   nextQuestion: () => void;
   setTimeRemaining: (time: number) => void;
+  setAllAnswersSubmitted: (submitted: boolean) => void;
 }
 
 export const useTestStore = create<TestState>((set) => ({
   currentQuestionId: questions[0].id, // Начинаем с первого вопроса
   answers: [],
   timeRemaining: 1800, // 30 минут на выполнение теста
+  allAnswersSubmitted: false,
+  isLastQuestion: false,
   answerQuestion: (answer: Answer) =>
     set((state) => {
       const existingAnswerIndex = state.answers.findIndex(
@@ -48,12 +53,16 @@ export const useTestStore = create<TestState>((set) => ({
         return {
           ...state,
           currentQuestionId: questions[currentQuestionIndex + 1].id,
+          isLastQuestion: currentQuestionIndex + 1 === questions.length - 1,
         };
       } else {
-        return state; // Return the current state if there are no more questions
+        return {
+          ...state,
+          allAnswersSubmitted: true,
+        };
       }
     }),
     
   setTimeRemaining: (time) => set({ timeRemaining: time }),
+  setAllAnswersSubmitted: (submitted) => set({ allAnswersSubmitted: submitted }),
 }));
-

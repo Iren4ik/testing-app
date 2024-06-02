@@ -11,8 +11,14 @@ const Question: React.FC = () => {
   const currentQuestionId = useTestStore((state) => state.currentQuestionId);
   const answerQuestion = useTestStore((state) => state.answerQuestion);
   const nextQuestion = useTestStore((state) => state.nextQuestion);
+  const allAnswersSubmitted = useTestStore((state) => state.allAnswersSubmitted);
+  const setAllAnswersSubmitted = useTestStore((state) => state.setAllAnswersSubmitted);
+  const isLastQuestion = useTestStore((state) => state.isLastQuestion);
+
   const currentQuestion = questions.find(question => question.id === currentQuestionId);
+
   const [isAnswerGiven, setIsAnswerGiven] = useState(false);
+  // const [allAnswersSubmitted, setAllAnswersSubmitted] = useState(false);
 
   const formValues = watch();
 
@@ -36,7 +42,6 @@ const Question: React.FC = () => {
   }, [formValues, currentQuestion]);
 
   useEffect(() => {
-    // Очищаем форму и состояние, когда текущий вопрос меняется
     reset({ answer: [] });
     setIsAnswerGiven(false);
   }, [currentQuestionId, reset]);
@@ -44,9 +49,17 @@ const Question: React.FC = () => {
   const onSubmit = (data: any) => {
     if (currentQuestion) {
       answerQuestion({ questionId: currentQuestion.id, answer: data.answer });
-      nextQuestion();
+      if (isLastQuestion) {
+        setAllAnswersSubmitted(true);
+      } else {
+        nextQuestion();
+      }
     }
   };
+
+  if (allAnswersSubmitted) {
+    return <Typography variant="h6">Ответы направлены</Typography>;
+  }
 
   if (!currentQuestion) {
     return <Typography variant="h6">Вопрос не найден</Typography>;

@@ -8,6 +8,7 @@ import styles from '../styles/ProgressBar.module.scss';
 
 const ProgressBar: React.FC = () => {
   const currentQuestionId = useTestStore((state) => state.currentQuestionId);
+  const allAnswersSubmitted = useTestStore((state) => state.allAnswersSubmitted);
 
   return (
     <Box className={styles.progressBarContainer}>
@@ -15,7 +16,7 @@ const ProgressBar: React.FC = () => {
         <Box
           key={question.id}
           className={
-            question.id < currentQuestionId
+            allAnswersSubmitted || question.id < currentQuestionId
               ? styles.completed
               : question.id === currentQuestionId
               ? styles.current
@@ -28,4 +29,3 @@ const ProgressBar: React.FC = () => {
 };
 
 export default ProgressBar;
-
