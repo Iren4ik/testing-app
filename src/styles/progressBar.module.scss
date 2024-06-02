@@ -1,0 +1,23 @@
+.progressBarContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.progressBarContainer > div {
+  flex: 1;
+  height: 10px;
+  margin: 0 2px;
+}
+
+.completed {
+  background-color: black;
+}
+
+.current {
+  background-color: red;
+}
+
+.pending {
+  background-color: lightgray;
+}
