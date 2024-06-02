@@ -1,95 +1,47 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
 
-export default function Home() {
+import styles from './page.module.css';
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+import ProgressBar from '../components/ProgressBar';
+import Question from '../components/Question';
+import useTimer from '../hooks/useTimer';
+import { useTestStore } from '../store/testStore';
+import { questions } from '../questions';
+
+const Home: React.FC = () => {
+  const timeRemaining = useTimer();
+  const timeExpired = useTestStore((state) => state.timeExpired);
+  const allAnswersSubmitted = useTestStore((state) => state.allAnswersSubmitted);
+  const currentQuestionId = useTestStore((state) => state.currentQuestionId);
+  const currentQuestion = questions.find(question => question.id === currentQuestionId);
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <Box className={styles.container}>
+        <Box className={styles.header}>
+          <Typography variant="h4" component="h1" className={styles.headerText}>Тестирование</Typography>
+          <Box className={styles.timerBox}>
+            <Typography variant="h6" className={styles.timer}>
+              {new Date(timeRemaining * 1000).toISOString().substring(14, 19)}
+            </Typography>
+          </Box>
+        </Box>
+        <ProgressBar />
+        <Box sx={{ mt: 4 }}>
+          {timeExpired ? (
+            <Typography variant="h6">Время истекло, ваши ответы направлены. Спасибо!</Typography>
+          ) : allAnswersSubmitted ? (
+            <Typography variant="h6">Ответы направлены. Спасибо!</Typography>
+          ) : !currentQuestion ? (
+            <Typography variant="h6">Вопрос не найден.</Typography>
+          ) : (
+            <Question />
+          )}
+        </Box>
+      </Box>
     </main>
   );
-}
+};
+
+export default Home;

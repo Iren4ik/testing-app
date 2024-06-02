@@ -1,0 +1,9 @@
+.shortAnswer :global(.MuiOutlinedInput-root) {
+  :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: var(--bg-grey)
+  }
+
+  &:hover :global(.MuiOutlinedInput-notchedOutline) {
+    border-color: #000;
+  }
+}
