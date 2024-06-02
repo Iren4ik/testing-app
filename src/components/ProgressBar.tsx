@@ -8,6 +8,7 @@ import styles from '@/styles/ProgressBar.module.scss';
 
 const ProgressBar: React.FC = () => {
   const currentQuestionId = useTestStore((state) => state.currentQuestionId);
+  const timeExpired = useTestStore((state) => state.timeExpired);
   const allAnswersSubmitted = useTestStore((state) => state.allAnswersSubmitted);
 
   return (
@@ -18,6 +19,8 @@ const ProgressBar: React.FC = () => {
           className={
             allAnswersSubmitted || question.id < currentQuestionId
               ? styles.completed
+              : timeExpired && question.id === currentQuestionId
+              ? styles.current
               : question.id === currentQuestionId
               ? styles.current
               : styles.pending

@@ -15,7 +15,6 @@ const useTimer = () => {
 
     if (timeRemaining <= 0) {
       setTimeExpired(true);
-      setAllAnswersSubmitted(true);
       setTimeRemaining(0); // Устанавливаем значение 0, чтобы таймер оставался на 00:00
       return;
     }

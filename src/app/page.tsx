@@ -3,11 +3,11 @@
 import styles from './page.module.css';
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import ProgressBar from '@/components/ProgressBar';
-import Question from '@/components/Question';
-import useTimer from '@/hooks/useTimer';
-import { useTestStore } from '@/store/testStore';
-import { questions } from '@/questions';
+import ProgressBar from '../components/ProgressBar';
+import Question from '../components/Question';
+import useTimer from '../hooks/useTimer';
+import { useTestStore } from '../store/testStore';
+import { questions } from '../questions';
 
 const Home: React.FC = () => {
   const timeRemaining = useTimer();
