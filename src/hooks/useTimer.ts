@@ -1,13 +1,18 @@
 import { useEffect } from 'react';
-import { useTestStore } from '../store/testStore';
+import { useTestStore } from '@/store/testStore';
 
 const useTimer = () => {
   const timeRemaining = useTestStore((state) => state.timeRemaining);
   const setTimeRemaining = useTestStore((state) => state.setTimeRemaining);
   const setAllAnswersSubmitted = useTestStore((state) => state.setAllAnswersSubmitted);
   const setTimeExpired = useTestStore((state) => state.setTimeExpired);
+  const allAnswersSubmitted = useTestStore((state) => state.allAnswersSubmitted);
 
   useEffect(() => {
+    if (allAnswersSubmitted) {
+      return;
+    }
+
     if (timeRemaining <= 0) {
       setTimeExpired(true);
       setAllAnswersSubmitted(true);
@@ -20,7 +25,7 @@ const useTimer = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeRemaining, setTimeRemaining, setAllAnswersSubmitted, setTimeExpired]);
+  }, [timeRemaining, allAnswersSubmitted, setTimeRemaining, setAllAnswersSubmitted, setTimeExpired]);
 
   return timeRemaining;
 };

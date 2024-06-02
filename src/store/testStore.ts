@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { questions } from '../questions';
+import { questions } from '@/questions';
 
 interface Answer {
   questionId: number;
@@ -23,7 +23,7 @@ interface TestState {
 export const useTestStore = create<TestState>((set) => ({
   currentQuestionId: questions[0].id, // Начинаем с первого вопроса
   answers: [],
-  timeRemaining: 30, // 30 минут на выполнение теста
+  timeRemaining: 30 * 60, // 30 минут на выполнение теста (в секундах)
   allAnswersSubmitted: false,
   timeExpired: false,
   isLastQuestion: false,

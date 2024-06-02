@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { useTestStore } from '../store/testStore';
-import { questions } from '../questions';
+import { useTestStore } from '@/store/testStore';
+import { questions } from '@/questions';
 import { Box, Typography, Radio, RadioGroup, FormControlLabel, Checkbox, TextField, Button } from '@mui/material';
 
 const Question: React.FC = () => {
@@ -11,13 +11,7 @@ const Question: React.FC = () => {
   const currentQuestionId = useTestStore((state) => state.currentQuestionId);
   const answerQuestion = useTestStore((state) => state.answerQuestion);
   const nextQuestion = useTestStore((state) => state.nextQuestion);
-  const allAnswersSubmitted = useTestStore((state) => state.allAnswersSubmitted);
-  const setAllAnswersSubmitted = useTestStore((state) => state.setAllAnswersSubmitted);
-  const timeExpired = useTestStore((state) => state.timeExpired); // Добавлено: состояние истечения времени
-  const isLastQuestion = useTestStore((state) => state.isLastQuestion);
-
   const currentQuestion = questions.find(question => question.id === currentQuestionId);
-
   const [isAnswerGiven, setIsAnswerGiven] = useState(false);
 
   const formValues = watch();
@@ -49,21 +43,9 @@ const Question: React.FC = () => {
   const onSubmit = (data: any) => {
     if (currentQuestion) {
       answerQuestion({ questionId: currentQuestion.id, answer: data.answer });
-      if (isLastQuestion) {
-        setAllAnswersSubmitted(true);
-      } else {
-        nextQuestion();
-      }
+      nextQuestion();
     }
   };
-
-  if (timeExpired) {
-    return <Typography variant="h6">Время истекло, ваши ответы направлены</Typography>
-  }
-
-  if (allAnswersSubmitted) {
-    return <Typography variant="h6">Ответы направлены</Typography>;
-  }
 
   if (!currentQuestion) {
     return <Typography variant="h6">Вопрос не найден</Typography>;

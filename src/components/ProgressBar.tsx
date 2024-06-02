@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { Box } from '@mui/material';
-import { useTestStore } from '../store/testStore';
-import { questions } from '../questions';
-import styles from '../styles/ProgressBar.module.scss';
+import { useTestStore } from '@/store/testStore';
+import { questions } from '@/questions';
+import styles from '@/styles/ProgressBar.module.scss';
 
 const ProgressBar: React.FC = () => {
   const currentQuestionId = useTestStore((state) => state.currentQuestionId);
