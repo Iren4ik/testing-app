@@ -1,0 +1,29 @@
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  .radio {
+    color: var(--bg-black);
+    margin: 0 8px 0 11px;
+    padding: 0;
+  }
+
+  .radioChecked {
+    color: var(--bg-red) !important;
+    background-color: var(--bg-red) !important;
+    border: none !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 10px 0 13px !important;
+    padding: 0 !important;    
+  }
+  
+  .radioLabel {
+    margin-left: 8px;
+  }
+}
+
+
+
+

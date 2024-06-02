@@ -4,7 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTestStore } from '@/store/testStore';
 import { questions } from '@/questions';
-import { Box, Typography, Radio, RadioGroup, FormControlLabel, Checkbox, TextField, Button } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
+import SingleChoiceQuestion from '@/components/SingleChoiceQuestion';
+import MultipleChoiceQuestion from '@/components/MultipleChoiceQuestion';
+import ShortAnswerQuestion from '@/components/ShortAnswerQuestion';
+import LongAnswerQuestion from '@/components/LongAnswerQuestion';
+import styles from '@/styles/questions.module.scss';
 
 const Question: React.FC = () => {
   const { control, handleSubmit, watch, reset, setValue } = useForm();
@@ -53,100 +58,21 @@ const Question: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Typography variant="h6">{currentQuestion.question}</Typography>
+      <Typography variant="h6" component="h2" className={styles.headerQuestion}>{currentQuestion.question}</Typography>
       {currentQuestion.type === 'single-choice' && (
-        <Controller
-          name="answer"
-          control={control}
-          render={({ field }) => (
-            <RadioGroup
-              {...field}
-              value={field.value || ''}
-              onChange={(e) => {
-                field.onChange(e);
-                setIsAnswerGiven(!!e.target.value);
-              }}
-            >
-              {currentQuestion.options?.map((option: string) => (
-                <FormControlLabel
-                  key={option}
-                  value={option}
-                  control={<Radio />}
-                  label={option}
-                />
-              ))}
-            </RadioGroup>
-          )}
-        />
+        <SingleChoiceQuestion control={control} options={currentQuestion.options || []} setIsAnswerGiven={setIsAnswerGiven} />
       )}
       {currentQuestion.type === 'multiple-choice' && (
-        <Controller
-          name="answer"
-          control={control}
-          render={({ field }) => (
-            <>
-              {currentQuestion.options?.map((option: string) => (
-                <FormControlLabel
-                  key={option}
-                  control={
-                    <Checkbox
-                      checked={Array.isArray(field.value) && field.value.includes(option)}
-                      onChange={() => {
-                        const newValue = field.value.includes(option)
-                          ? field.value.filter((item: string) => item !== option)
-                          : [...(field.value || []), option];
-                        setValue('answer', newValue);
-                      }}
-                    />
-                  }
-                  label={option}
-                />
-              ))}
-            </>
-          )}
-        />
+        <MultipleChoiceQuestion control={control} options={currentQuestion.options || []} setValue={setValue} setIsAnswerGiven={setIsAnswerGiven} fieldValue={formValues.answer} />
       )}
       {currentQuestion.type === 'short-answer' && (
-        <Controller
-          name="answer"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              inputProps={{ maxLength: 30 }}
-              onChange={(e) => {
-                field.onChange(e);
-                setIsAnswerGiven(!!e.target.value.trim());
-              }}
-            />
-          )}
-        />
+        <ShortAnswerQuestion control={control} setIsAnswerGiven={setIsAnswerGiven} />
       )}
       {currentQuestion.type === 'long-answer' && (
-        <Controller
-          name="answer"
-          control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              variant="outlined"
-              fullWidth
-              multiline
-              rows={4}
-              margin="normal"
-              onChange={(e) => {
-                field.onChange(e);
-                setIsAnswerGiven(!!e.target.value.trim());
-              }}
-            />
-          )}
-        />
+        <LongAnswerQuestion control={control} setIsAnswerGiven={setIsAnswerGiven} />
       )}
-      <Box sx={{ mt: 2 }}>
-        <Button type="submit" variant="contained" color="primary" disabled={!isAnswerGiven}>
+      <Box className={styles.buttonContainer}>
+        <Button type="submit" variant="contained" disabled={!isAnswerGiven} className={styles.button}>
           Ответить
         </Button>
       </Box>

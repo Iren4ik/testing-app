@@ -1,0 +1,17 @@
+.headerQuestion {
+  font-weight: 700;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.buttonContainer {
+  margin-top: 30px;
+
+  .button {
+    text-transform: capitalize;
+    background-color: var(--bg-red);
+    padding: 7px 40px;
+    font-size: 16px;
+    box-shadow: none;
+  }
+}

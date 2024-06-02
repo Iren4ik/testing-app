@@ -19,20 +19,22 @@ const Home: React.FC = () => {
   return (
     <main className={styles.main}>
       <Box className={styles.container}>
-        <Box>
-          <Typography variant="h4" component="h1">Тестирование</Typography>
-          <Typography variant="h6">
-            {new Date(timeRemaining * 1000).toISOString().substring(14, 19)}
-          </Typography>
+        <Box className={styles.header}>
+          <Typography variant="h4" component="h1" className={styles.headerText}>Тестирование</Typography>
+          <Box className={styles.timerBox}>
+            <Typography variant="h6" className={styles.timer}>
+              {new Date(timeRemaining * 1000).toISOString().substring(14, 19)}
+            </Typography>
+          </Box>
         </Box>
         <ProgressBar />
         <Box sx={{ mt: 4 }}>
           {timeExpired ? (
-            <Typography variant="h6">Время истекло, ваши ответы направлены</Typography>
+            <Typography variant="h6">Время истекло, ваши ответы направлены. Спасибо!</Typography>
           ) : allAnswersSubmitted ? (
-            <Typography variant="h6">Ответы направлены</Typography>
+            <Typography variant="h6">Ответы направлены. Спасибо!</Typography>
           ) : !currentQuestion ? (
-            <Typography variant="h6">Вопрос не найден</Typography>
+            <Typography variant="h6">Вопрос не найден.</Typography>
           ) : (
             <Question />
           )}

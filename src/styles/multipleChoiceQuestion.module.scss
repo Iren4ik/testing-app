@@ -1,0 +1,12 @@
+.checkboxContainer {
+  display: flex;
+  flex-direction: column;
+
+  .checkbox {
+    color: var(--bg-black);
+  }
+  
+  .checkboxChecked {
+    color: var(--bg-red) !important;
+  }
+}

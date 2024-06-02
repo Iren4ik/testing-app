@@ -12,7 +12,27 @@
     min-width: 400px;
     margin: 0 auto;
     padding: 1rem;
-    border: solid 1px black;
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      .headerText {
+        font-weight: 700;
+      }
+    }
+
+    .timerBox {
+      padding: 3px 18px;
+      border-radius: 4px;
+      border: 1px solid var(--bg-black);
+
+      .timer {
+        color: var(--bg-black);
+        font-weight: bold;
+      }
+    }
   }
 }
 

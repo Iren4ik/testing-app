@@ -23,7 +23,7 @@ interface TestState {
 export const useTestStore = create<TestState>((set) => ({
   currentQuestionId: questions[0].id, // Начинаем с первого вопроса
   answers: [],
-  timeRemaining: 5, // 30 минут на выполнение теста (в секундах)
+  timeRemaining: 30 * 60, // 30 минут на выполнение теста (в секундах)
   allAnswersSubmitted: false,
   timeExpired: false,
   isLastQuestion: false,
