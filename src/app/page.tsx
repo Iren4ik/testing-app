@@ -15,17 +15,18 @@ const Home: React.FC = () => {
       <Box className={styles.container}>
         <Box>
           <Typography variant="h4" component="h1">Тестирование</Typography>
-          <Typography variant="h6">{new Date(timeRemaining * 1000).toISOString().substring(14, 19)}</Typography>
+          <Typography variant="h6">
+            {new Date(timeRemaining * 1000).toISOString().substring(14, 19)}
+          </Typography>
         </Box>
-        
         <ProgressBar />
         <Box sx={{ mt: 4 }}>
           <Question />
         </Box>
       </Box>
     </main>
-
   );
 };
 
 export default Home;
+

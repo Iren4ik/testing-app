@@ -13,12 +13,12 @@ const Question: React.FC = () => {
   const nextQuestion = useTestStore((state) => state.nextQuestion);
   const allAnswersSubmitted = useTestStore((state) => state.allAnswersSubmitted);
   const setAllAnswersSubmitted = useTestStore((state) => state.setAllAnswersSubmitted);
+  const timeExpired = useTestStore((state) => state.timeExpired); // Добавлено: состояние истечения времени
   const isLastQuestion = useTestStore((state) => state.isLastQuestion);
 
   const currentQuestion = questions.find(question => question.id === currentQuestionId);
 
   const [isAnswerGiven, setIsAnswerGiven] = useState(false);
-  // const [allAnswersSubmitted, setAllAnswersSubmitted] = useState(false);
 
   const formValues = watch();
 
@@ -57,6 +57,10 @@ const Question: React.FC = () => {
     }
   };
 
+  if (timeExpired) {
+    return <Typography variant="h6">Время истекло, ваши ответы направлены</Typography>
+  }
+
   if (allAnswersSubmitted) {
     return <Typography variant="h6">Ответы направлены</Typography>;
   }
@@ -73,14 +77,14 @@ const Question: React.FC = () => {
           name="answer"
           control={control}
           render={({ field }) => (
-              <RadioGroup
-                {...field}
-                value={field.value || ''}
-                onChange={(e) => {
-                  field.onChange(e);
-                  setIsAnswerGiven(!!e.target.value);
-                }}
-              >
+            <RadioGroup
+              {...field}
+              value={field.value || ''}
+              onChange={(e) => {
+                field.onChange(e);
+                setIsAnswerGiven(!!e.target.value);
+              }}
+            >
               {currentQuestion.options?.map((option: string) => (
                 <FormControlLabel
                   key={option}

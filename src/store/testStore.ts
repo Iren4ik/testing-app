@@ -11,18 +11,21 @@ interface TestState {
   answers: Answer[];
   timeRemaining: number;
   allAnswersSubmitted: boolean;
+  timeExpired: boolean;
   isLastQuestion: boolean;
   answerQuestion: (answer: Answer) => void;
   nextQuestion: () => void;
   setTimeRemaining: (time: number) => void;
   setAllAnswersSubmitted: (submitted: boolean) => void;
+  setTimeExpired: (expired: boolean) => void;
 }
 
 export const useTestStore = create<TestState>((set) => ({
   currentQuestionId: questions[0].id, // Начинаем с первого вопроса
   answers: [],
-  timeRemaining: 1800, // 30 минут на выполнение теста
+  timeRemaining: 30, // 30 минут на выполнение теста
   allAnswersSubmitted: false,
+  timeExpired: false,
   isLastQuestion: false,
   answerQuestion: (answer: Answer) =>
     set((state) => {
@@ -62,7 +65,7 @@ export const useTestStore = create<TestState>((set) => ({
         };
       }
     }),
-    
   setTimeRemaining: (time) => set({ timeRemaining: time }),
   setAllAnswersSubmitted: (submitted) => set({ allAnswersSubmitted: submitted }),
+  setTimeExpired: (expired) => set({ timeExpired: expired }),
 }));
